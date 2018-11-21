@@ -219,6 +219,9 @@ export default class BridgePlugin {
     } else if (receiver === 'ws') {
       // send data to all Websocket clients
       this.websocket.clients.forEach((client) => {
+        if (client.readyState !== client.OPEN) {
+          return
+        }
         client.send(binary, { binary: true })
       })
     } else {
